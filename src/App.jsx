@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import './App.css';
+import { Component } from 'react'
+import Usuario from './componentes/Usuario'
 import Formulario from './componentes/Formulario';
-import SoporteNotas from './componentes/SoporteNotas';
+import './App.css';
+
 
 function App() {
   const [count, setCount] = useState(0)
