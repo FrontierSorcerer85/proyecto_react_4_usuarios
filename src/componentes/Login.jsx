@@ -20,7 +20,7 @@ export default class Login extends Component {
   handleLogin = async () => {
     const { user, pass } = this.state;
     try {
-      const response = await axios.post('http://10.0.4.105:3000/api/ingresar', { user, pass }, {
+      const response = await axios.post('https://personas.ctpoba.edu.ar/api/ingresar', { user, pass }, {
         headers: { 'Content-Type': 'application/json' }
       });
       if (response.data.status === 'success') {

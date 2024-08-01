@@ -20,7 +20,7 @@ export default class Registro extends Component {
   handleRegister = async () => {
     const { user, pass, nombres, apellidos, documento } = this.state;
     try {
-      const response = await axios.post('http://10.0.4.105:3000/api/registrar', {
+      const response = await axios.post('https://personas.ctpoba.edu.ar/api/registrar', {
         user, pass, nombres, apellidos, documento
       }, {
         headers: { 'Content-Type': 'application/json' }

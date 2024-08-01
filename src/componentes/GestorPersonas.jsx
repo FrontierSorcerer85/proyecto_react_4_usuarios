@@ -20,7 +20,7 @@ export default class GestorPersonas extends Component {
 
   fetchPersonas = async () => {
     try {
-      const response = await axios.get('http://10.0.4.105:3000/api/personas', {
+      const response = await axios.get('https://personas.ctpoba.edu.ar/api/personas', {
         headers: { 'Authorization': `Bearer ${this.context.token}` }
       });
       this.setState({ personas: response.data.personas });
@@ -31,7 +31,7 @@ export default class GestorPersonas extends Component {
 
   agregarPersona = async (persona) => {
     try {
-      const response = await axios.post('http://10.0.4.105:3000/api/personas', persona, {
+      const response = await axios.post('https://personas.ctpoba.edu.ar/api/personas', persona, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${this.context.token}`
@@ -47,7 +47,7 @@ export default class GestorPersonas extends Component {
 
   actualizarPersona = async (persona_id, personaActualizada) => {
     try {
-      const response = await axios.put(`http://10.0.4.105:3000/api/personas/${persona_id}`, personaActualizada, {
+      const response = await axios.put(`https://personas.ctpoba.edu.ar/api/personas/${persona_id}`, personaActualizada, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${this.context.token}`
@@ -63,7 +63,7 @@ export default class GestorPersonas extends Component {
 
   eliminarPersona = async (persona_id) => {
     try {
-      const response = await axios.delete(`http://10.0.4.105:3000/api/personas/${persona_id}`, {
+      const response = await axios.delete(`https://personas.ctpoba.edu.ar/api/personas/${persona_id}`, {
         headers: { 'Authorization': `Bearer ${this.context.token}` }
       });
       if (response.data.status === 'success') {
