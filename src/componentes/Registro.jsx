@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 export default class Registro extends Component {
   constructor(props) {
@@ -18,13 +19,16 @@ export default class Registro extends Component {
 
   handleRegister = async () => {
     const { user, pass, nombres, apellidos, documento } = this.state;
-    const response = await fetch('http://10.0.4.105:3000/api/registrar', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ user, pass, nombres, apellidos, documento })
-    });
-    const data = await response.json();
-    alert(`Status: ${data.status}, User ID: ${data.user_id}`);
+    try {
+      const response = await axios.post('http://10.0.4.105:3000/api/registrar', {
+        user, pass, nombres, apellidos, documento
+      }, {
+        headers: { 'Content-Type': 'application/json' }
+      });
+      alert(`Status: ${response.data.status}, User ID: ${response.data.user_id}`);
+    } catch (error) {
+      console.error("Error registering user:", error);
+    }
   };
 
   render() {

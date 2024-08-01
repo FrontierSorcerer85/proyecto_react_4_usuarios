@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PersonaForm from './PersonaForm';
 import PersonaList from './ArchivoApp';
 import AuthContext from '../componentes/AuthContext';
+import axios from 'axios';
 
 export default class GestorPersonas extends Component {
   static contextType = AuthContext;
@@ -18,51 +19,58 @@ export default class GestorPersonas extends Component {
   }
 
   fetchPersonas = async () => {
-    const response = await fetch('http://10.0.4.105:3000/api/personas', {
-      headers: { 'Authorization': `Bearer ${this.context.token}` }
-    });
-    const data = await response.json();
-    this.setState({ personas: data.personas });
+    try {
+      const response = await axios.get('http://10.0.4.105:3000/api/personas', {
+        headers: { 'Authorization': `Bearer ${this.context.token}` }
+      });
+      this.setState({ personas: response.data.personas });
+    } catch (error) {
+      console.error("Error fetching personas:", error);
+    }
   };
 
   agregarPersona = async (persona) => {
-    const response = await fetch('http://10.0.4.105:3000/api/personas', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.context.token}`
-      },
-      body: JSON.stringify(persona)
-    });
-    const data = await response.json();
-    if (data.status === 'success') {
-      this.fetchPersonas();
+    try {
+      const response = await axios.post('http://10.0.4.105:3000/api/personas', persona, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.context.token}`
+        }
+      });
+      if (response.data.status === 'success') {
+        this.fetchPersonas();
+      }
+    } catch (error) {
+      console.error("Error adding persona:", error);
     }
   };
 
   actualizarPersona = async (persona_id, personaActualizada) => {
-    const response = await fetch(`http://10.0.4.105:3000/api/personas/${persona_id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.context.token}`
-      },
-      body: JSON.stringify(personaActualizada)
-    });
-    const data = await response.json();
-    if (data.status === 'success') {
-      this.fetchPersonas();
+    try {
+      const response = await axios.put(`http://10.0.4.105:3000/api/personas/${persona_id}`, personaActualizada, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.context.token}`
+        }
+      });
+      if (response.data.status === 'success') {
+        this.fetchPersonas();
+      }
+    } catch (error) {
+      console.error("Error updating persona:", error);
     }
   };
 
   eliminarPersona = async (persona_id) => {
-    const response = await fetch(`http://10.0.4.105:3000/api/personas/${persona_id}`, {
-      method: 'DELETE',
-      headers: { 'Authorization': `Bearer ${this.context.token}` }
-    });
-    const data = await response.json();
-    if (data.status === 'success') {
-      this.fetchPersonas();
+    try {
+      const response = await axios.delete(`http://10.0.4.105:3000/api/personas/${persona_id}`, {
+        headers: { 'Authorization': `Bearer ${this.context.token}` }
+      });
+      if (response.data.status === 'success') {
+        this.fetchPersonas();
+      }
+    } catch (error) {
+      console.error("Error deleting persona:", error);
     }
   };
 

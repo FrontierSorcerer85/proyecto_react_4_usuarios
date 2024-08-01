@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import AuthContext from '../componentes/AuthContext';
+import axios from 'axios';
 
 export default class Login extends Component {
   static contextType = AuthContext;
@@ -18,16 +19,17 @@ export default class Login extends Component {
 
   handleLogin = async () => {
     const { user, pass } = this.state;
-    const response = await fetch('http://10.0.4.105:3000/api/ingresar', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ user, pass })
-    });
-    const data = await response.json();
-    if (data.status === 'success') {
-      this.context.login(data.user, data.token);
-    } else {
-      alert('Login failed');
+    try {
+      const response = await axios.post('http://10.0.4.105:3000/api/ingresar', { user, pass }, {
+        headers: { 'Content-Type': 'application/json' }
+      });
+      if (response.data.status === 'success') {
+        this.context.login(response.data.user, response.data.token);
+      } else {
+        alert('Login failed');
+      }
+    } catch (error) {
+      console.error("Error logging in:", error);
     }
   };
 
